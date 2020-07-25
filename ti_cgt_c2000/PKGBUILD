@@ -1,0 +1,73 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: Evan Wildenberg <ewilden2017@gmail.com>
+pkgname=ti-cgt-c2000
+pkgver=20.2.0.LTS
+pkgrel=2
+epoch=
+pkgdesc="Code Generation Tools for Texas Instruments C2000 Microcontrollers"
+url="http://www.ti.com/tool/C2000-CGT"
+arch=("x86_64")
+groups=()
+depends=()
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=(!strip)
+install=
+changelog=
+source=("http://software-dl.ti.com/codegen/esd/cgt_public_sw/C2000/${pkgver}/ti_cgt_c2000_${pkgver}_linux_installer_x86.bin")
+noextract=("ti_cgt_c2000_${pkgver}_linux_installer_x86.bin")
+md5sums=("e961a5a71e8c9bc33bb9a36d17b8b81b")
+validpgpkeys=()
+
+prepare() {
+    chmod +x ti_cgt_c2000_${pkgver}_linux_installer_x86.bin 
+}
+
+build() {
+    ./ti_cgt_c2000_${pkgver}_linux_installer_x86.bin --mode unattended --prefix "$srcdir/"
+    rm "$srcdir/${pkgname}_${pkgver}/ti_cgt_c2000_${pkgver}_linux-x64_installer_install.log"
+}
+
+package() {
+    mkdir -p $pkgdir/usr/bin
+    mkdir $pkgdir/opt/
+    mv $srcdir/${pkgname}_${pkgver}/ $pkgdir/opt/$pkgname
+
+    #Link executables
+    ln -s /opt/${pkgname}/bin/abs2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/ac2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/accla $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/acia2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/aciacla $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/adv2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/ar2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/asm2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/cg2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/cgcla $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/cl2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/clist2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/dem2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/dis2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/embed2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/hex2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/ilk2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/libinfo2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/lnk2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/nm2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/ofd2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/opt2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/optcla $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/pdd2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/pprof2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/strip2000 $pkgdir/usr/bin/
+    ln -s /opt/${pkgname}/bin/xref2000 $pkgdir/usr/bin/
+}
